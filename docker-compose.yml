@@ -1,0 +1,35 @@
+networks:
+  base_de_datos:  # Nombre de la red
+    driver: bridge  # Tipo de red, bridge es la predeterminada para comunicación entre contenedores en la misma máquina
+
+services:
+  mysql:  # Definición del servicio MySQL
+    image: mysql:5.7  # Imagen que se utilizará para el contenedor MySQL, versión 5.7
+    container_name: base_de_datos-mysql  # Nombre del contenedor
+    restart: always  # Política de reinicio para el contenedor (si se detiene, se reinicia automáticamente)
+    ports:
+      - "4208:3306"  # Mapea el puerto 3306 del contenedor (puerto por defecto de MySQL) al puerto 4208 del host
+    environment:  # Variables de entorno que se pasan al contenedor
+      MYSQL_ROOT_PASSWORD: 1234  # Contraseña para el usuario root
+      MYSQL_DATABASE: base_de_datos  # Nombre de la base de datos a crear al iniciar el contenedor
+      MYSQL_USER: administrador  # Usuario adicional con acceso a la base de datos
+      MYSQL_PASSWORD: 1234  # Contraseña para el usuario "administrador"
+    volumes:  # Montaje de volúmenes para persistir datos
+      - ./backend/base_de_datos.sql:/docker-entrypoint-initdb.d/base_de_datos.sql  # Carga de un script SQL para inicializar la base de datos
+    networks:
+      - base_de_datos  # Conexión del servicio a la red "base_de_datos"
+
+  phpmyadmin:  # Definición del servicio PhpMyAdmin
+    image: phpmyadmin/phpmyadmin  # Imagen oficial de PhpMyAdmin
+    container_name: backend-phpmyadmin  # Nombre del contenedor
+    restart: always  # Política de reinicio del contenedor
+    ports:
+      - "8080:80"  # Mapea el puerto 80 del contenedor al puerto 8080 del host (para acceder a PhpMyAdmin a través del navegador)
+    environment:  # Variables de entorno para configurar PhpMyAdmin
+      PMA_HOST: mysql  # Define el host de la base de datos al que PhpMyAdmin se conectará (nombre del contenedor MySQL)
+      PMA_USER: administrador  # Usuario que PhpMyAdmin utilizará para acceder a la base de datos
+      PMA_PASSWORD: 1234  # Contraseña para el usuario "administrador"
+    depends_on:
+      - mysql  # Asegura que el servicio phpMyAdmin se inicie después de MySQL
+    networks:
+      - base_de_datos  # Conexión del servicio a la red "base_de_datos"
