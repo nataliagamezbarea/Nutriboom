@@ -1,8 +1,0 @@
-CREATE DATABASE IF NOT EXISTS base_de_datos;
-
-USE base_de_datos;
-
-CREATE TABLE IF NOT EXISTS tabla (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-);
