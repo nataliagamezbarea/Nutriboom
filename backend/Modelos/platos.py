@@ -1,4 +1,4 @@
-from app import db 
+from backend.Modelos.database import db 
 
 class Platos(db.Model):
     id_plato = db.Column(db.Integer, primary_key=True)

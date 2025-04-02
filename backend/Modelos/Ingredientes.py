@@ -1,4 +1,4 @@
-from app import db 
+from backend.Modelos.database import db 
 
 class Ingredientes(db.Model):
     id_ingrediente = db.Column(db.Integer, primary_key=True)

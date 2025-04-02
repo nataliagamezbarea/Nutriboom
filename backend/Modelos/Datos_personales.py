@@ -1,4 +1,4 @@
-from app import db 
+from backend.Modelos.database import db 
 
 class Datos_personales(db.Model):
     id_usuario = db.Column(db.Integer, primary_key=True)
