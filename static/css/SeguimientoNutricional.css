@@ -13,30 +13,29 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
   background-color: var(--gray);
-  display: flex;
+  display: grid;
+  grid-template-columns: 10vw auto; 
+  grid-template-areas: "nav content"; 
   min-height: 100vh;
 }
 
 nav {
-  width: var(--sidebar-width);
+  width: 10vw; 
   background-color: var(--white);
   border-right: 1px solid var(--gray-medium);
   padding: 35px 0;
   display: flex;
   flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  position: relative; 
   z-index: 100;
   box-shadow: 5px 0 20px rgba(0, 0, 0, 0.03);
   color: black;
+  grid-area: nav;
 }
 
 .logo {
@@ -47,7 +46,7 @@ nav {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 0 1vw;
+  padding: 0 .5vw;
   justify-content: space-between;
 }
 
@@ -86,11 +85,17 @@ nav a i {
 }
 
 .content {
-  flex: 1;
-  margin-left: 10vw;
+  grid-area: content; 
   padding: 1vw;
   max-width: 1800px;
+  grid-template-columns: repeat(4, 1fr); 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 3vw;
+  
 }
+
 
 .header {
   display: flex;
@@ -140,10 +145,28 @@ nav a i {
   border-radius: 10px;
 }
 
+
+
 .cerrar_sesion a {
   background-color: rgba(255, 45, 45, 0.911);
   color: white;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
 }
+
+.cerrar_sesion a i {
+  margin-right: 8px;
+  font-size: 18px; 
+}
+
+.cerrar_sesion a span {
+  font-size: 16px; 
+}
+
+
 
 .cerrar_sesion a:hover {
   color: white;
@@ -153,27 +176,48 @@ nav a i {
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5vw;
+  gap: 0.2vw;
+  justify-content: center;
 }
 .logo span {
   font-weight: 900;
+  font-size: 1vw;
 }
 
 .logo img {
   width: 3vw;
 }
 
-.content {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
 .bievenida {
   padding: 1vw 23vw;
 }
-@media (max-width: 992px) {
+
+.boxes {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1vh;
+}
+
+.box {
+  background-color:rgb(48, 53, 67);
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1vw .5vw;
+}
+
+
+@media (max-width: 1300px) {
+  body {
+    grid-template-columns: 80px auto;
+  }
+
   nav {
-    width: 80px;
+    width: 80px; 
     padding: 25px 0;
   }
 
@@ -201,12 +245,7 @@ nav a i {
     width: 7vw;
   }
 
-  .cerrar_sesion a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 45, 45, 0.911);
-    color: white;
-    width: 5vw;
-  }
+
+
+  
 }
