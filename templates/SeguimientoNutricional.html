@@ -1,21 +1,45 @@
 {% extends "base.html" %} {% block title %}Seguimiento Nutricional{% endblock %}
 {% block content %}
 <script src="{{ url_for('static', filename='js/graficos.js') }}"></script>
+<div>
+  <!-- Header -->
+ 
 
-<div class="content">
-  <div class="box">
-    <div id="chart" style="width: 600px; height: 400px;"></div>
+
+  <div class="content">
+    <div class="header">
+      <div class="bienvenida">
+        <p>Hola , Nombre , Apellido</p>
+        <h1>Esta es tu dieta</h1>
+      </div>
+  
+      <div class="perfil-usuario">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/6073/6073873.png"
+          alt=""
+        />
+
+      </div>
+    </div>
+
+    <div class="boxes">
+
+      <div class="box">
+        <div id="chart" style="width: 600px; height: 400px"></div> 
+
+      </div>
+      <div class="box"></div>
+      <div class="box"></div>
+
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      
+    </div>
+  
+
+    
   </div>
-
-  <div class="box">contenido2</div>
-
-  <div class="box">contenido3</div>
-
-  <div class="box">contenido4</div>
-
-  <div class="box">contenido5</div>
-
-  <div class="box">contenido6</div>
 </div>
 
 {% endblock %}

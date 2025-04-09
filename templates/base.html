@@ -12,36 +12,60 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
 
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/nutriboom.png') }}" />
+
     <script src="https://cdn.jsdelivr.net/npm/echarts"></script>
 
     <title>Seguimiento Nutricional</title>
   </head>
   <body>
     <nav>
-      <!-- Inicio -->
-      <a href="{{ url_for('home') }}">
-        <i class="fa-solid fa-solid fa-house active"></i>
-      </a>
-      <!-- Registro de comidas -->
-      <i class="fa-solid fa-utensils"></i>
-      <!-- Objetivos -->
-      <i class="fa-solid fa-bullseye"></i>
-      <!-- Historial -->
-      <i class="fa-solid fa-clock-rotate-left"></i>
-      <!-- Graficos -->
+      <div class="logo">
 
-      <!-- Ajustes -->
+    <img src="{{ url_for('static', filename='img/nutriboom.png') }}" />
+        <span>Nutriboom</span>
+      </div>
 
-      <!-- Perfil -->
-      <a href="{{ url_for('datos_personales') }}">
-        <i class="fa-solid fa-user"></i>
-      </a>
-      <!-- Cerrar sesion -->
-      <a href="{{ url_for('logout') }}">
-        <i class="fa-solid fa-sign-out-alt"></i>
+      <div class="nav-menu">
+        <div class="arriba">
+          <a href="{{ url_for('login') }}" class="{% if request.path == '/login' %}active{% endif %} or {% if request.path == '/'%} active {%endif %}">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="#" class="{% if request.path == '/cuenta' %}active{% endif %}">
+            <i class="fas fa-user-circle"></i>
+            <span>Cuenta</span>
+          </a>
+
+          <a href="" class="{% if request.path == '/calendario' %}active{% endif %}">
+            <i class="fas fa-solid fa-utensils"></i>
+            <span>Comidas</span>
+          </a>
+          <a href="{{ url_for('datos_personales') }}"  class="{% if request.path == '/datos_personales' %}active{% endif %}">
+            <i class="fas fa-bullseye"></i>
+            <span>Objetivos</span>
+          </a>
+
+          <a href="" class="{% if request.path == '/graficos' %}active{% endif %}">
+            <i class="fas fa-chart-line" ></i>
+            <span>Gráficos</span>
+          </a>
+
+          <a href="#" class="{% if request.path == '/ajustes' %}active{% endif %}">
+            <i class="fas fa-cog"></i>
+            <span>Ajustes</span>
+          </a>
+        </div>
         <!-- Cerrar sesión -->
-      </a>
+        <div class="cerrar_sesion abajo">
+          <a href="{{ url_for('logout') }}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Cerrar sesión</span>
+          </a>
+        </div>
+      </div>
     </nav>
+
     {% block content %}{% endblock %}
   </body>
 </html>

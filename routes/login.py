@@ -29,19 +29,3 @@ def login():
         return render_template("login.html", error="Credenciales incorrectas")
 
     return render_template("login.html")
-
-
-def home():
-    if "user" not in session:
-        return redirect(url_for("login"))
-    
-    user_id = session["user"]
-    print("User ID de la sesión:", user_id)
-
-    datos = Datos_personales.query.filter_by(id_usuario=user_id).first()
-    print("Datos encontrados:", datos)
-
-    if not datos:
-        return redirect(url_for("datos_personales"))
-
-    return render_template("SeguimientoNutricional.html")

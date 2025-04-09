@@ -7,4 +7,3 @@ class Info_diaria(db.Model):
     fecha = db.Column(db.DateTime, nullable=False)
     peso = db.Column(db.Numeric(5, 2), nullable=False)
     grasa_corporal = db.Column(db.Numeric(5, 2), nullable=False)
-    numero_Comidas = db.Column(db.Integer, nullable=False)
