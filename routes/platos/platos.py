@@ -13,7 +13,7 @@ def platos():
     ingredientes = Ingredientes.query.order_by(Ingredientes.nombre.desc()).all()  
     pagina = request.args.get('page', 1, type=int)
     per_page = 10
-    platos_paginated = Platos.query.paginate(page=pagina, per_page=per_page)
+    platos_paginated = Platos.query.order_by(Platos.id_plato.desc()).paginate(page=pagina, per_page=per_page)   
 
     return render_template(
         'platos/platos.html', 
