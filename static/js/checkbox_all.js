@@ -1,12 +1,14 @@
 
-function checkAll(checkboxall) {
-  // selecciona todos los checkbox excepto select all que es el checkbox que selecciona todo 
-  const checkboxes = document.querySelectorAll(
-    'input[type="checkbox"]:not(#selectAll)'
-  );
 
-  // haz un for que recorra todas las casillas y se pongan como el select all para que asi coincidan
-  checkboxes.forEach(function (checkbox) {
-    checkbox.checked = checkboxall.checked;
-  });
-}
+function checkAll(selectAllCheckbox) {
+    // Selecciona únicamente los checkboxes de la tabla (los de los platos)
+    const checkboxes = document.querySelectorAll(
+      'table tbody input[type="checkbox"][name="ids"]'
+    );
+   
+   
+    checkboxes.forEach(function (checkbox) {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+   }
+   
