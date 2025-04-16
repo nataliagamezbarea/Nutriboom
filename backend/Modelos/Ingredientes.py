@@ -1,4 +1,5 @@
 from backend.Modelos.database import db 
+from sqlalchemy.orm import relationship
 
 class Ingredientes(db.Model):
     __tablename__ = 'ingredientes'
@@ -9,3 +10,5 @@ class Ingredientes(db.Model):
     carbohidratos = db.Column(db.Numeric(5, 2), nullable=False)
     azucar = db.Column(db.Numeric(5, 2), nullable=False)
     proteina = db.Column(db.Numeric(5, 2), nullable=False)
+
+    platos = relationship('Platos', secondary='ingredienteplato', back_populates='ingredientes')
