@@ -13,6 +13,7 @@ from routes.logout import logout
 
 
 from routes.platos import *
+from routes.ingredientes import *
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -30,11 +31,19 @@ app.add_url_rule('/estadistica/<int:id_usuario>', 'estadistica', estadistica)
 app.add_url_rule('/datos_personales', 'datos_personales', datos_personales, methods=["GET", "POST"])
 
 app.add_url_rule('/platos', 'platos', platos, methods=["GET", "POST"]) 
-app.add_url_rule('/platos/add', 'add_plato', add_plato, methods=["POST"])  
-app.add_url_rule('/platos/delete/<int:id_plato>', 'delete_plato', delete_plato, methods=["POST"])  
-app.add_url_rule('/platos/update/<int:id_plato>', 'update_plato', update_plato, methods=["GET", "POST"])  
+app.add_url_rule('/plato/add', 'add_plato', add_plato, methods=["POST"])  
+app.add_url_rule('/plato/delete/<int:id_plato>', 'delete_plato', delete_plato, methods=["POST"])  
+app.add_url_rule('/plato/update/<int:id_plato>', 'update_plato', update_plato, methods=["GET", "POST"])  
 app.add_url_rule('/delete_platos' , 'delete_platos' , delete_platos ,  methods = ['POST'])
 
+
+app.add_url_rule('/ingredientes', 'ingredientes', ingredientes, methods=["GET", "POST"]) 
+app.add_url_rule('/ingrediente/add', 'add_ingrediente', add_ingrediente, methods=["POST"]) 
+app.add_url_rule('/ingrediente/update/<int:id_ingrediente>', 'update_ingrediente', update_ingrediente, methods=["GET", "POST"])  
+app.add_url_rule('/ingrediente/delete/<int:id_ingrediente>', 'delete_ingrediente', delete_ingrediente, methods=["POST"])  
+
+
+app.add_url_rule('/delete_ingredientes' , 'delete_ingredientes' , delete_ingredientes ,  methods = ['POST'])
 
 app.add_url_rule('/cerrar_sesion', 'logout', logout)
 
