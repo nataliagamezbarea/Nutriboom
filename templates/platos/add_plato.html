@@ -1,32 +1,41 @@
-<form method="POST" action="{{ url_for('add_ingrediente') }}">
-    <div class="modal-body">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="grasas_saturadas" class="form-label">Grasas Saturadas (g)</label>
-            <input type="number" name="grasas_saturadas" class="form-control" step="0.01" min="0" required>
-        </div>
-        <div class="mb-3">
-            <label for="grasas_no_saturadas" class="form-label">Grasas No Saturadas (g)</label>
-            <input type="number" name="grasas_no_saturadas" class="form-control" step="0.01" min="0" required>
-        </div>
-        <div class="mb-3">
-            <label for="carbohidratos" class="form-label">Carbohidratos (g)</label>
-            <input type="number" name="carbohidratos" class="form-control" step="0.01" min="0" required>
-        </div>
-        <div class="mb-3">
-            <label for="azucar" class="form-label">Azúcar (g)</label>
-            <input type="number" name="azucar" class="form-control" step="0.01" min="0" required>
-        </div>
-        <div class="mb-3">
-            <label for="proteina" class="form-label">Proteína (g)</label>
-            <input type="number" name="proteina" class="form-control" step="0.01" min="0" required>
+<!-- Modal Añadir -->
+<div id="addEmployeeModal" class="modal fade" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('add_plato') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Añadir plato</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select name="tipo" class="form-select" required>
+                            <option value="Desayuno">Desayuno</option>
+                            <option value="Almuerzo">Almuerzo</option>  
+                            <option value="Comida">Comida</option>  
+                            <option value="Merienda">Merienda</option>
+                            <option value="Cena">Cena</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ingredientes" class="form-label">Ingredientes</label>
+                        <select name="ingredientes" class="form-select" multiple required>
+                            {% for ingrediente in ingredientes %}
+                                <option value="{{ ingrediente.id_ingrediente }}">{{ ingrediente.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Añadir</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-success">Añadir</button>
-    </div>
-</form>
+</div>
