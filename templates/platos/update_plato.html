@@ -1,0 +1,48 @@
+<!-- Modal Editar -->
+{% for plato in platos %}
+    <form action="{{ url_for('update_plato', id_plato=plato.id_plato) }}" method="POST" class="modal fade" id="editEmployeeModal{{ plato.id_plato }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Plato</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_plato" value="{{ plato.id_plato }}">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" value="{{ plato.nombre }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select name="tipo" class="form-select" required>
+                            {% for tipo in tipos_plato %}
+                                <option value="{{ tipo }}" {% if plato.tipo == tipo %}selected{% endif %}>{{ tipo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ingredientes</label>
+                        <select name="ingredientes" class="form-select" multiple required>
+                            {% for ingrediente in ingredientes %}
+                                <option value="{{ ingrediente.id_ingrediente }}"
+                                    {% if plato_a_editar %}
+                                        {% if ingrediente.id_ingrediente in ingredientes_ids %}selected{% endif %}
+                                    {% else %}
+                                        {% if ingrediente in plato.ingredientes %}selected{% endif %}
+                                    {% endif %}
+                                >
+                                    {{ ingrediente.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-info">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endfor %}

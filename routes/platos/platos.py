@@ -16,7 +16,7 @@ def platos():
     platos_paginated = Platos.query.paginate(page=pagina, per_page=per_page)
 
     return render_template(
-        'platos.html', 
+        'platos/platos.html', 
         ingredientes=ingredientes, 
         platos=platos_paginated.items,
         tipos_plato=TIPOS_PLATO,

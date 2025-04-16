@@ -41,7 +41,7 @@ def update_plato(id_plato):
     per_page = 10
     platos_paginated = Platos.query.paginate(page=pagina, per_page=per_page)
 
-    return render_template('platos.html', ingredientes=ingredientes,platos=platos_paginated.items, tipos_plato=TIPOS_PLATO, 
+    return render_template('platos/platos.html', ingredientes=ingredientes,platos=platos_paginated.items, tipos_plato=TIPOS_PLATO, 
                            current_page=pagina,total_pages=ceil(Platos.query.count() / per_page),
                            plato_a_editar=plato_a_editar, ingredientes_ids=ingredientes_ids   # IDs del plato a editar
     )
