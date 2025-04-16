@@ -15,20 +15,11 @@ def add_ingrediente():
         proteina = request.form['proteina']
 
         # Validar que los valores numéricos sean correctos
-        try:
-            grasas_saturadas = float(grasas_saturadas)
-            grasas_no_saturadas = float(grasas_no_saturadas)
-            carbohidratos = float(carbohidratos)
-            azucar = float(azucar)
-            proteina = float(proteina)
-
-            if grasas_saturadas < 0 or grasas_no_saturadas < 0 or carbohidratos < 0 or azucar < 0 or proteina < 0:
-                flash('Los valores numéricos no pueden ser negativos.', 'error')
-                return render_template('add_ingrediente.html')
-
-        except ValueError:
-            flash('Por favor, ingrese valores válidos en todos los campos numéricos.', 'error')
-            return render_template('add_ingrediente.html')
+        grasas_saturadas = float(grasas_saturadas)
+        grasas_no_saturadas = float(grasas_no_saturadas)
+        carbohidratos = float(carbohidratos)
+        azucar = float(azucar)
+        proteina = float(proteina)
 
         # Crear un nuevo ingrediente con los datos del formulario
         nuevo_ingrediente = Ingredientes(
@@ -44,7 +35,6 @@ def add_ingrediente():
         db.session.add(nuevo_ingrediente)
         db.session.commit()
 
-        flash('Ingrediente añadido correctamente.', 'success')
         return redirect(url_for('ingredientes'))
 
     return render_template('add_ingrediente.html')  # Mostrar el formulario para añadir ingredientes
