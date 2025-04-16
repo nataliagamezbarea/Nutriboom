@@ -2,7 +2,9 @@
 <div id="addEmployeeModal" class="modal fade" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="{{ url_for('add_plato') }}">
+            <form method="POST" action="{{ url_for('add_plato') }}"  class="needs-validation"
+            novalidate
+            onsubmit="this.classList.add('was-validated'); return this.checkValidity();">
                 <div class="modal-header">
                     <h5 class="modal-title">Añadir plato</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -11,6 +13,8 @@
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" name="nombre" class="form-control" required>
+                        <div class="invalid-feedback">El nombre es obligatorio.</div>
+
                     </div>
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo</label>
@@ -21,6 +25,8 @@
                             <option value="Merienda">Merienda</option>
                             <option value="Cena">Cena</option>
                         </select>
+                        <div class="invalid-feedback">Selecciona un tipo de plato.</div>
+
                     </div>
                     <div class="mb-3">
                         <label for="ingredientes" class="form-label">Ingredientes</label>
@@ -29,6 +35,8 @@
                                 <option value="{{ ingrediente.id_ingrediente }}">{{ ingrediente.nombre }}</option>
                             {% endfor %}
                         </select>
+                        <div class="invalid-feedback">Seleccione al menos un ingrediente.</div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
