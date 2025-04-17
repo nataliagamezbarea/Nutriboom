@@ -12,8 +12,10 @@ from routes.datos_personales import datos_personales
 from routes.logout import logout  
 
 
+
 from routes.platos import *
 from routes.ingredientes import *
+from routes.info_diaria import *
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -41,9 +43,13 @@ app.add_url_rule('/ingredientes', 'ingredientes', ingredientes, methods=["GET", 
 app.add_url_rule('/ingrediente/add', 'add_ingrediente', add_ingrediente, methods=["POST"]) 
 app.add_url_rule('/ingrediente/update/<int:id_ingrediente>', 'update_ingrediente', update_ingrediente, methods=["GET", "POST"])  
 app.add_url_rule('/ingrediente/delete/<int:id_ingrediente>', 'delete_ingrediente', delete_ingrediente, methods=["POST"])  
-
-
 app.add_url_rule('/delete_ingredientes' , 'delete_ingredientes' , delete_ingredientes ,  methods = ['POST'])
+
+app.add_url_rule('/info_diaria', 'info_diaria', info_diaria, methods=["GET", "POST"]) 
+app.add_url_rule('/info_diaria/add', 'add_info_diaria', add_info_diaria, methods=["POST"]) 
+app.add_url_rule('/info_diaria/update/<int:id_info_diaria>', 'update_info_diaria', update_info_diaria, methods=["GET", "POST"])  
+app.add_url_rule('/info_diaria/delete/<int:id_info_diaria>', 'delete_info_diaria', delete_info_diaria, methods=["POST"])  
+app.add_url_rule('/delete_info_diarias' , 'delete_info_diarias' , delete_info_diarias ,  methods = ['POST'])
 
 app.add_url_rule('/cerrar_sesion', 'logout', logout)
 

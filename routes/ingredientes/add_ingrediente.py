@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, session, url_for, flash
+from flask import render_template, request, redirect, session, url_for
 from backend.Modelos.Ingredientes import Ingredientes
 from backend.Modelos.database import db
 
