@@ -1,89 +1,73 @@
-window.onload = function () {
-    var chart = echarts.init(document.getElementById("chart"));
+window.onload = async function () {
+    const contenedorGrafico = document.getElementById("chart");
 
-    // Obtener el id del usuario
-    fetch("http://localhost:5000/ver_id_usuario")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error al obtener el id del usuario");
-            }
-            return response.json();
-        })
-        .then(user => {
-            fetch(`http://localhost:5000/estadistica/${user.id_usuario}`)
-                .then(response => {
-                    if (!response.ok) {
-                        return null;  
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (!Array.isArray(data) || data.length === 0) {
-                        return;
-                    }
+    const diasTraduccion = {
+        "Monday": "Lunes",
+        "Tuesday": "Martes",
+        "Wednesday": "Miércoles",
+        "Thursday": "Jueves",
+        "Friday": "Viernes",
+        "Saturday": "Sábado",
+        "Sunday": "Domingo"
+    };
 
-                    var dias = [];
-                    var pesos = [];
-                    var grasas = [];
+    const diasSemana = Object.keys(diasTraduccion);
 
-                    var diasTraduccion = {
-                        "Monday": "Lunes",
-                        "Tuesday": "Martes",
-                        "Wednesday": "Miércoles",
-                        "Thursday": "Jueves",
-                        "Friday": "Viernes",
-                        "Saturday": "Sábado",
-                        "Sunday": "Domingo"
-                    };
+    // 1. Obtener ID del usuario
+    const respuestaUsuario = await fetch("http://localhost:5000/ver_id_usuario");
+    const usuario = await respuestaUsuario.json();
 
-                    var diasSemana = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    // 2. Obtener datos estadísticos
+    const respuestaEstadisticas = await fetch(`http://localhost:5000/estadistica/${usuario.id_usuario}`);
+    const datos = await respuestaEstadisticas.json();
 
-                    for (var i = 0; i < diasSemana.length; i++) {
-                        var dia = diasSemana[i];
-                        var item = data.find(d => d.dia === dia); 
-                        dias.push(diasTraduccion[dia]);
+    // Verificar si datos es un arreglo y contiene datos
+    if (!Array.isArray(datos) || datos.length === 0) {
+        // Si no hay datos, mostrar mensaje sin gráfico
+        contenedorGrafico.innerHTML = "<h2>No tienes datos diarias, por favor registra datos</h2>";
+    } else {
+        // Si hay datos, mostrar gráfico
+        const grafico = echarts.init(contenedorGrafico);
 
-                        if (item) {
-                            pesos.push(item.peso);
-                            grasas.push(item.grasa_corporal);
-                        } else {
-                            pesos.push(null);
-                            grasas.push(null);
-                        }
-                    }
+        // 3. Organizar datos
+        const dias = [];
+        const pesos = [];
+        const grasas = [];
 
-                    var option = {
-                        title: { text: "Nutriboom" },
-                        tooltip: {},
-                        legend: {
-                            data: ["Peso", "Grasa Corporal"],
-                            orient: "horizontal",
-                            left: "center"
-                        },
-                        xAxis: {
-                            data: dias
-                        },
-                        yAxis: {},
-                        series: [
-                            {
-                                name: "Peso",
-                                type: "line",
-                                data: pesos,
-                                itemStyle: { color: "blue" }
-                            },
-                            {
-                                name: "Grasa Corporal",
-                                type: "line",
-                                data: grasas,
-                                itemStyle: { color: "red" }
-                            }
-                        ]
-                    };
-
-                    chart.setOption(option);
-                });
-        })
-        .catch(error => {
-            console.error("Error al obtener el id del usuario: ", error);
+        diasSemana.forEach(dia => {
+            const item = datos.find(d => d.dia === dia);
+            dias.push(diasTraduccion[dia]);
+            pesos.push(item ? item.peso : null);
+            grasas.push(item ? item.grasa_corporal : null);
         });
+
+        // 4. Configurar y mostrar gráfico
+        const opcion = {
+            title: { text: "Nutriboom" },
+            tooltip: {},
+            legend: {
+                data: ["Peso", "Grasa Corporal"],
+                orient: "horizontal",
+                left: "center"
+            },
+            xAxis: { data: dias },
+            yAxis: {},
+            series: [
+                {
+                    name: "Peso",
+                    type: "line",
+                    data: pesos,
+                    itemStyle: { color: "blue" }
+                },
+                {
+                    name: "Grasa Corporal",
+                    type: "line",
+                    data: grasas,
+                    itemStyle: { color: "red" }
+                }
+            ]
+        };
+
+        grafico.setOption(opcion);
+    }
 };

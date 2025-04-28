@@ -3,9 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 # Creamos la instancia de la base de datos
 db = SQLAlchemy()
 
-# # Datos del servidor MySQL para natalia
-# USER = "root"
-# PASSWORD = "1234"
+# Datos del servidor MySQL para natalia
+USER = "root"
+PASSWORD = "1234"
+HOST = "localhost"  # Puede ser una IP o un dominio
+PORT = "3306"  # Puerto por defecto de MySQL
+DATABASE = "Nutriboom"
+
+# # Datos del servidor MySQL para nosotros
+# USER = "Antonio"
+# PASSWORD = "password"
 # HOST = "localhost"  # Puede ser una IP o un dominio
 # PORT = "3306"  # Puerto por defecto de MySQL
 # DATABASE = "Nutriboom"
