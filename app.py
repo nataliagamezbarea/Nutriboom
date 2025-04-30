@@ -16,6 +16,12 @@ from routes.logout import logout
 from routes.platos import *
 from routes.ingredientes import *
 from routes.info_diaria import *
+from routes.user import update_usuario
+from routes.user.cuenta import cuenta
+from routes.user.olvidado_contraseña import olvidado_contraseña
+from routes.user.restablecer_contraseña import restablecer_contraseña
+from routes.user.update_contraseña import update_contraseña
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -23,6 +29,13 @@ app.secret_key = os.urandom(24)
 CORS(app)
 
 init_db(app)
+
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
 # Rutas
 app.add_url_rule('/', 'home', home)  
@@ -37,6 +50,13 @@ app.add_url_rule('/plato/add', 'add_plato', add_plato, methods=["POST"])
 app.add_url_rule('/plato/delete/<int:id_plato>', 'delete_plato', delete_plato, methods=["POST"])  
 app.add_url_rule('/plato/update/<int:id_plato>', 'update_plato', update_plato, methods=["GET", "POST"])  
 app.add_url_rule('/delete_platos' , 'delete_platos' , delete_platos ,  methods = ['POST'])
+
+
+app.add_url_rule('/cuenta', 'cuenta', cuenta)
+app.add_url_rule('/olvidado_contraseña', 'olvidado_contraseña', olvidado_contraseña, methods=["GET", "POST"])
+app.add_url_rule('/update_usuario', 'update_usuario', update_usuario, methods=['POST']) 
+app.add_url_rule('/cambiar_contraseña', 'cambiar_contraseña', update_contraseña, methods=["GET", "POST"])
+app.add_url_rule('/restablecer_contraseña/<token>', 'restablecer_contraseña', restablecer_contraseña, methods=["GET", "POST"])
 
 
 app.add_url_rule('/ingredientes', 'ingredientes', ingredientes, methods=["GET", "POST"]) 

@@ -32,7 +32,7 @@
             <i class="fas fa-home"></i>
             <span>Inicio</span>
           </a>
-          <a href="#" class="{% if request.path == '/cuenta' %}active{% endif %}">
+          <a href="{{ url_for('cuenta') }}" class="{% if request.path == '/cuenta' %}active{% endif %}">
             <i class="fas fa-user-circle"></i>
             <span>Cuenta</span>
           </a>
@@ -51,10 +51,6 @@
             <span>Gráficos</span>
           </a>
 
-          <a href="#" class="{% if request.path == '/ajustes' %}active{% endif %}">
-            <i class="fas fa-cog"></i>
-            <span>Ajustes</span>
-          </a>
         </div>
         <!-- Cerrar sesión -->
         <div class="cerrar_sesion abajo">

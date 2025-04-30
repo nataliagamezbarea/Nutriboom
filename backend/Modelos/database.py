@@ -17,12 +17,12 @@ DATABASE = "Nutriboom"
 # PORT = "3306"  # Puerto por defecto de MySQL
 # DATABASE = "Nutriboom"
 
-# Datos del servidor MySQL para nosotros
-USER = "Antonio"
-PASSWORD = "password"
-HOST = "172.18.11.68"  # Puede ser una IP o un dominio
-PORT = "3306"  # Puerto por defecto de MySQL
-DATABASE = "nutriboom"
+# # Datos del servidor MySQL para nosotros
+# USER = "Antonio"
+# PASSWORD = "password"
+# HOST = "172.18.11.68"  # Puede ser una IP o un dominio
+# PORT = "3306"  # Puerto por defecto de MySQL
+# DATABASE = "nutriboom"
 
 def init_db(app):
     app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"

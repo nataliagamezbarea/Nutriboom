@@ -26,11 +26,16 @@
           <span class="name-input">Password</span>
           <input type="password" name="contrasena" class="input-line" required>
         </div>
+        <a id="olvidado" href="{{ url_for('olvidado_contraseña') }}">¿Has olvidado tu contraseña?</a>
+
         <button type="submit" class="button-login">Login</button>
 
       </form>
+      
       <a href="{{ url_for('register') }}" class="button-second">Register</a>
+      
     </div>
+
   </div>
 </div>
 

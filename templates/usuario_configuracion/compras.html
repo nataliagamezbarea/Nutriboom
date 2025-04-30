@@ -1,0 +1,72 @@
+{% extends "usuario_configuracion/base.html" %}
+
+{% block title %}Mis Compras{% endblock %}
+
+{% block content %}
+
+<link href="{{ url_for('static', filename='css/user/compras.css') }}" rel="stylesheet" />
+
+<section title="compras">
+  <h1>Mis Compras</h1>
+
+  {% if pedidos %}
+    {% for pedido in pedidos %}
+      <div class="pedido-card">
+        <div class="pedido-header">
+          <div>Pedido realizado el {{ pedido.fecha }}</div>
+          <div>Estado: {{ pedido.estado }} | Tipo: {{ pedido.tipo_pedido }}</div>
+
+          {% set total_pedido = 0 %}
+          {% for pp in pedido.pedido_productos %}
+            {% set total_pedido = total_pedido + pp.total_producto %}
+          {% endfor %}
+
+          <div class="pedido-entrega">
+            🕒 Tu pedido llegará entre el <strong>{{ pedido.fecha_entrega_min.strftime("%d/%m/%Y") }}</strong> y el <strong>{{ pedido.fecha_entrega_max.strftime("%d/%m/%Y") }}</strong>.
+            {% if pedido.dias_restantes > 0 %}
+              <br>Faltan <strong>{{ pedido.dias_restantes }}</strong> día{{ 's' if pedido.dias_restantes > 1 }} para recibirlo.
+            {% else %}
+              <br><strong>¡Tu pedido debería estar llegando!</strong>
+            {% endif %}
+          </div>
+
+          <ul class="productos-lista">
+            {% for pp in pedido.pedido_productos %}
+              <li class="acordeon-item">
+                <input type="checkbox" id="producto-{{ loop.index }}" class="acordeon-toggle">
+                <label for="producto-{{ loop.index }}" class="acordeon-label">
+                  {{ pp.producto_variante.producto.nombre }}
+                  <span class="flecha">⌄</span>
+                </label>
+
+                <div class="acordeon-contenido flex column align-center justify-center">
+                  {% set imagenes = pp.producto_variante.producto.imagenes %}
+                  {% if imagenes and imagenes|length > 0 %}
+                    <img src="{{ imagenes[0].imagen_url }}" alt="Imagen del producto" style="max-width: 80px; height: auto; border: 1px solid #ccc; border-radius: 4px;" />
+                  {% else %}
+                    <p><em>Sin imagen disponible</em></p>
+                  {% endif %}
+
+                  <p><strong>Talla:</strong> {{ pp.producto_variante.talla.talla }}</p>
+                  <p><strong>Color:</strong> {{ pp.producto_variante.color.color }}</p>
+                  <p><strong>Precio unitario:</strong> €{{ pp.producto_variante.producto.precio }}</p>
+                  <p><strong>Cantidad:</strong> {{ pp.cantidad }}</p>
+                  <p><strong>Total:</strong> €{{ pp.total_producto }}</p>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <div class="total">Precio total del pedido: €{{ total_pedido }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="mensaje-vacio">
+      ¡Aún no has realizado ninguna compra!<br>
+      Explora nuestros productos y encuentra algo que te encante. 🛍️
+    </div>
+  {% endif %}
+</section>
+
+{% endblock %}
