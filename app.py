@@ -7,6 +7,7 @@ from routes.login import login
 from routes.register import register
 from routes.id_usuario import ver_id_usuario
 from routes.estadistica import estadistica
+from routes.CalendarioDieta import calendario_dieta
 from routes.datos_personales import datos_personales
 from routes.logout import logout  
 
@@ -26,6 +27,7 @@ app.add_url_rule('/ver_id_usuario', 'ver_id_usuario', ver_id_usuario)
 app.add_url_rule('/estadistica/<int:id_usuario>', 'estadistica', estadistica)
 app.add_url_rule('/datos_personales', 'datos_personales', datos_personales, methods=["GET", "POST"])
 app.add_url_rule('/cerrar_sesion', 'logout', logout)
+app.add_url_rule('/calendario_dieta/<dia>', 'calendario_dieta', calendario_dieta, methods=["GET", "POST"])
 
 
 if __name__ == '__main__':

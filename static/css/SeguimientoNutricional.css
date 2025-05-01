@@ -211,6 +211,12 @@ nav a i {
 }
 
 
+.centrarContenido {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 1300px) {
   body {
     grid-template-columns: 80px auto;

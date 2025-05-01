@@ -37,7 +37,7 @@
             <span>Cuenta</span>
           </a>
 
-          <a href="" class="{% if request.path == '/calendario' %}active{% endif %}">
+          <a href="{{ url_for('calendario_dieta', dia='Lunes')}}" class="{% if request.path == '/calendario_dieta' %}active{% endif %}">
             <i class="fas fa-solid fa-utensils"></i>
             <span>Comidas</span>
           </a>
