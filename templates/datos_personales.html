@@ -39,25 +39,49 @@
                 <option value="3" {% if datos and datos.nivel_actividad == 3 %}selected{% endif %}>Alto</option>
             </select>
         </div>
+        <div>
+            <label for="altura">Calorias base:</label>
+            <input type="number" step="1" name="calorias_base" id="calorias_base" value="{{ datos.calorias_base if datos else '' }}" required>
+        </div>
 
         <div>
+            <input id="calorias_permitidas" name="calorias_permitidas" hidden type="number" value="">
+            <input id="tipo_dieta" name="tipo_dieta" hidden type="text" value="">
             <label for="tipo_dieta">Tipo de Dieta:</label>
-            <select name="tipo_dieta" id="tipo_dieta" required>
-                <option value="Subir" {% if datos and datos.tipo_dieta == 'Subir' %}selected{% endif %}>Subir</option>
-                <option value="Bajar" {% if datos and datos.tipo_dieta == 'Bajar' %}selected{% endif %}>Bajar</option>
-                <option value="Mantenerse" {% if datos and datos.tipo_dieta == 'Mantenerse' %}selected{% endif %}>Mantenerse</option>
+            <select id="tipoDietaSelector" onchange="actualizarCalorias()">
+                <option value="Mantenerse">Mantenerse</option>
+                <option value="Bajar">Bajar de peso</option>
+                <option value="Subir">Subir de peso</option>
             </select>
-        </div>
-
-        <div>
-            <label for="calorias_base">Calorías Base:</label>
-            <input type="number" step="0.01" name="calorias_base" id="calorias_base" value="{{ datos.calorias_base if datos else '' }}" required>
-        </div>
-
-        <div>
-            <label for="calorias_permitidas">Calorías Permitidas:</label>
-            <input type="number" step="0.01" name="calorias_permitidas" id="calorias_permitidas" value="{{ datos.calorias_permitidas if datos else '' }}" required>
-        </div>
+            
+            <p>Calorías permitidas: <span id="calorias">{{datos.calorias_base}}</span></p>
+            
+            <script>
+                function actualizarCalorias() {
+                  const tipoDieta = document.getElementById("tipoDietaSelector").value;
+                  console.log(tipoDieta)
+                  let caloriasBase = document.getElementById("calorias_base").value;
+                  if (caloriasBase == '') {
+                    caloriasBase = 1000
+                  }
+                  let calorias = 0;
+                    
+                  if (tipoDieta === "Bajar") {
+                    calorias = caloriasBase - 400;
+                  } else if (tipoDieta === "Subir") {
+                    calorias = parseInt(caloriasBase) + 400;
+                  } else {
+                    calorias = caloriasBase;
+                  }
+            
+                  document.getElementById("calorias").textContent = calorias;
+                  calorias_permitidas_input = document.getElementById("calorias_permitidas");
+                  calorias_permitidas_input.value = calorias;
+                  tipo_dieta_input = document.getElementById("tipo_dieta");
+                  tipo_dieta_input.value = tipoDieta;
+                  console.log(tipo_dieta_input.value);
+                }
+            </script>
 
         <div>
             <button type="submit">Guardar</button>
