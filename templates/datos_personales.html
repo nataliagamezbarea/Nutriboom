@@ -2,77 +2,94 @@
 {% block title %}Datos Personales{% endblock %}
 {% block content %}
 <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='css/form.css') }}" rel="stylesheet"/>
 
-<link
-href="{{ url_for('static', filename='css/form.css') }}"
-rel="stylesheet"
-/>
-
-<style>
-
-</style>
-<div class="contenedor-form ">
+<div class="contenedor-form">
   <h1>Datos Personales</h1>
-    
-    <!-- Si hay un mensaje de éxito o error, se muestra aquí -->
-    {% if mensaje %}
-        <p>{{ mensaje }}</p>
-    {% endif %}
-    
-    <form method="POST" action="{{ url_for('datos_personales') }}">
-        <div>
-            <label for="altura">Altura (m):</label>
-            <input type="number" step="0.01" name="altura" id="altura" value="{{ datos.altura if datos else '' }}" required>
-        </div>
+  
+  <!-- Si hay un mensaje de éxito o error, se muestra aquí -->
+  {% if mensaje %}
+      <p>{{ mensaje }}</p>
+  {% endif %}
+  
+  <form method="POST" action="{{ url_for('datos_personales') }}">
+      <div>
+          <label for="altura">Altura (m):</label>
+          <input type="number" step="0.01" name="altura" id="altura" value="{{ datos.altura if datos else '' }}" required>
+      </div>
 
-        <div>
-            <label for="edad">Edad:</label>
-            <input type="number" name="edad" id="edad" value="{{ datos.edad if datos else '' }}" required>
-        </div>
+      <div>
+          <label for="edad">Edad:</label>
+          <input type="number" name="edad" id="edad" value="{{ datos.edad if datos else '' }}" required>
+      </div>
 
-        <div>
-            <label for="genero">Género:</label>
-            <select name="genero" id="genero" required>
-                <option value="Masculino" {% if datos and datos.genero == 'Masculino' %}selected{% endif %}>Masculino</option>
-                <option value="Femenino" {% if datos and datos.genero == 'Femenino' %}selected{% endif %}>Femenino</option>
-                <option value="Otros" {% if datos and datos.genero == 'Otros' %}selected{% endif %}>Otros</option>
-            </select>
-        </div>
+      <div>
+          <label for="genero">Género:</label>
+          <select name="genero" id="genero" required>
+              <option value="Masculino" {% if datos and datos.genero == 'Masculino' %}selected{% endif %}>Masculino</option>
+              <option value="Femenino" {% if datos and datos.genero == 'Femenino' %}selected{% endif %}>Femenino</option>
+              <option value="Otros" {% if datos and datos.genero == 'Otros' %}selected{% endif %}>Otros</option>
+          </select>
+      </div>
 
-        <div>
-            <label for="nivel_actividad">Nivel de Actividad:</label>
-            <select name="nivel_actividad" id="nivel_actividad" required>
-                <option value="1" {% if datos and datos.nivel_actividad == 1 %}selected{% endif %}>Bajo</option>
-                <option value="2" {% if datos and datos.nivel_actividad == 2 %}selected{% endif %}>Moderado</option>
-                <option value="3" {% if datos and datos.nivel_actividad == 3 %}selected{% endif %}>Alto</option>
-            </select>
-        </div>
+      <div>
+          <label for="nivel_actividad">Nivel de Actividad:</label>
+          <select name="nivel_actividad" id="nivel_actividad" required>
+              <option value="1" {% if datos and datos.nivel_actividad == 1 %}selected{% endif %}>Bajo</option>
+              <option value="2" {% if datos and datos.nivel_actividad == 2 %}selected{% endif %}>Moderado</option>
+              <option value="3" {% if datos and datos.nivel_actividad == 3 %}selected{% endif %}>Alto</option>
+          </select>
+      </div>
+      
+      <div>
+          <label for="calorias_base">Calorías base:</label>
+          <input type="number" step="1" name="calorias_base" id="calorias_base" value="{{ datos.calorias_base if datos else '' }}" required>
+      </div>
 
-        <div>
-            <label for="tipo_dieta">Tipo de Dieta:</label>
-            <select name="tipo_dieta" id="tipo_dieta" required>
-                <option value="Subir" {% if datos and datos.tipo_dieta == 'Subir' %}selected{% endif %}>Subir</option>
-                <option value="Bajar" {% if datos and datos.tipo_dieta == 'Bajar' %}selected{% endif %}>Bajar</option>
-                <option value="Mantenerse" {% if datos and datos.tipo_dieta == 'Mantenerse' %}selected{% endif %}>Mantenerse</option>
-            </select>
-        </div>
+      <div>
+          <input id="calorias_permitidas" name="calorias_permitidas" hidden type="number" value="">
+          <input id="tipo_dieta" name="tipo_dieta" hidden type="text" value="">
+          <label for="tipo_dieta">Tipo de Dieta:</label>
+          <select id="tipoDietaSelector" onchange="actualizarCalorias()">
+              <option value="Mantenerse">Mantenerse</option>
+              <option value="Bajar">Bajar de peso</option>
+              <option value="Subir">Subir de peso</option>
+          </select>
 
-        <div>
-            <label for="calorias_base">Calorías Base:</label>
-            <input type="number" step="0.01" name="calorias_base" id="calorias_base" value="{{ datos.calorias_base if datos else '' }}" required>
-        </div>
+          <p>Calorías permitidas: <span id="calorias">{{ datos.calorias_base if datos else '1000' }}</span></p>
+          
+          <script>
+              function actualizarCalorias() {
+                  const tipoDieta = document.getElementById("tipoDietaSelector").value;
+                  console.log(tipoDieta)
+                  let caloriasBase = document.getElementById("calorias_base").value;
+                  if (caloriasBase === '') {
+                      caloriasBase = 1000;
+                  }
+                  let calorias = 0;
+                    
+                  if (tipoDieta === "Bajar") {
+                      calorias = caloriasBase - 400;
+                  } else if (tipoDieta === "Subir") {
+                      calorias = parseInt(caloriasBase) + 400;
+                  } else {
+                      calorias = caloriasBase;
+                  }
+          
+                  document.getElementById("calorias").textContent = calorias;
+                  document.getElementById("calorias_permitidas").value = calorias;
+                  document.getElementById("tipo_dieta").value = tipoDieta;
+                  console.log(tipoDieta);
+              }
+          </script>
+      </div>
 
-        <div>
-            <label for="calorias_permitidas">Calorías Permitidas:</label>
-            <input type="number" step="0.01" name="calorias_permitidas" id="calorias_permitidas" value="{{ datos.calorias_permitidas if datos else '' }}" required>
-        </div>
+      <div>
+          <button type="submit">Guardar</button>
+      </div>
+  </form>
 
-        <div>
-            <button type="submit">Guardar</button>
-        </div>
-    </form>
-
-   
+  <a href="{{ url_for('home') }}">Volver a la página principal</a>
 </div>
 
 {% endblock %}
