@@ -3,11 +3,12 @@ from flask import Flask
 from flask_cors import CORS
 from backend.Modelos.database import db, init_db
 
+from routes.estadisticas.estadistica_mostrar import mostrar_estadistica
 from routes.home import home  
 from routes.login import login
 from routes.register import register
 from routes.id_usuario import ver_id_usuario
-from routes.estadistica import estadistica
+from routes.estadisticas.estadistica_general import estadistica_general
 from routes.datos_personales import datos_personales
 from routes.logout import logout  
 
@@ -42,7 +43,7 @@ app.add_url_rule('/', 'home', home)
 app.add_url_rule('/login', 'login', login, methods=["GET", "POST"])
 app.add_url_rule('/register', 'register', register, methods=["GET", "POST"])
 app.add_url_rule('/ver_id_usuario', 'ver_id_usuario', ver_id_usuario)
-app.add_url_rule('/estadistica/<int:id_usuario>', 'estadistica', estadistica)
+app.add_url_rule('/estadistica_general/<int:id_usuario>', 'estadistica_general', estadistica_general)
 app.add_url_rule('/datos_personales', 'datos_personales', datos_personales, methods=["GET", "POST"])
 
 app.add_url_rule('/platos', 'platos', platos, methods=["GET", "POST"]) 
@@ -59,6 +60,9 @@ app.add_url_rule('/cambiar_contraseña', 'cambiar_contraseña', update_contrase�
 app.add_url_rule('/restablecer_contraseña/<token>', 'restablecer_contraseña', restablecer_contraseña, methods=["GET", "POST"])
 
 
+
+
+
 app.add_url_rule('/ingredientes', 'ingredientes', ingredientes, methods=["GET", "POST"]) 
 app.add_url_rule('/ingrediente/add', 'add_ingrediente', add_ingrediente, methods=["POST"]) 
 app.add_url_rule('/ingrediente/update/<int:id_ingrediente>', 'update_ingrediente', update_ingrediente, methods=["GET", "POST"])  
@@ -73,6 +77,7 @@ app.add_url_rule('/delete_info_diarias' , 'delete_info_diarias' , delete_info_di
 
 app.add_url_rule('/cerrar_sesion', 'logout', logout)
 
+app.add_url_rule('/estadistica/<tipo_estadistica>', '/estadistica/<tipo_estadistica>', mostrar_estadistica, methods=["GET"])  
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)

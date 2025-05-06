@@ -32,6 +32,11 @@
             <i class="fas fa-home"></i>
             <span>Inicio</span>
           </a>
+
+          <a href="{{ url_for('info_diaria') }}" class="{% if request.path == '/info_diaria' %}active{% endif %}">
+            <i class="fas fa-calendar-day"></i>
+            <span>Info_diaria</span>
+          </a>
           <a href="{{ url_for('cuenta') }}" class="{% if request.path == '/cuenta' %}active{% endif %}">
             <i class="fas fa-user-circle"></i>
             <span>Cuenta</span>
@@ -46,7 +51,7 @@
             <span>Objetivos</span>
           </a>
 
-          <a href="" class="{% if request.path == '/graficos' %}active{% endif %}">
+          <a href="/estadistica/peso" class="{% if request.path == '/estadistica' %}active{% endif %}">
             <i class="fas fa-chart-line" ></i>
             <span>Gráficos</span>
           </a>

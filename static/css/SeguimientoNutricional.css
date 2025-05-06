@@ -212,10 +212,13 @@ nav a i {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 1vh;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); 
+
 }
 
 .box {
-  background-color: rgb(48, 53, 67);
+  background-color: rgb(248, 248, 248);
+  box-shadow: 0px 4px 10px rgba(0, 128, 0, 0.2); 
   border-radius: 10px;
   width: auto;
   height: auto;
@@ -223,6 +226,7 @@ nav a i {
   align-items: center;
   justify-content: center;
   padding: 1vw 0.5vw;
+  border: 0.2px solid rgba(128, 128, 128, 0.336);
 }
 
 
