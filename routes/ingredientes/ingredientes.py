@@ -15,7 +15,7 @@ def ingredientes():
     ingredientes_paginated = Ingredientes.query.order_by(Ingredientes.id_ingrediente.desc()).paginate(page=pagina, per_page=per_page)
 
     return render_template(
-        'ingredientes/ingredientes.html',  # Cambié la ruta para la plantilla a ingredientes
+        'ingredientes/ingredientes.html', 
         ingredientes=ingredientes_paginated.items,  # Pasar los ingredientes paginados
         current_page=pagina,
         total_pages=ceil(Ingredientes.query.count() / per_page),  # Calcular el total de páginas

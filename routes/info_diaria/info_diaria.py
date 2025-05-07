@@ -4,7 +4,7 @@ from backend.Modelos.Info_diaria import Info_diaria
 from math import ceil
 
 def info_diaria():
-    if 'user' not in session:  # Cambié a 'user' ya que es el ID del usuario
+    if 'user' not in session:
         return redirect(url_for('login'))
 
     user_id = int(session["user"])  # Obtener el ID del usuario desde la sesión
@@ -17,7 +17,7 @@ def info_diaria():
     info_diaria_paginated = Info_diaria.query.filter_by(id_usuario=user_id).paginate(page=pagina, per_page=per_page)
 
     return render_template(
-        'info_diaria/info_diaria.html',  # Cambié la ruta para la plantilla a info_diaria
+        'info_diaria/info_diaria.html', 
         info_diaria=info_diaria_paginated.items,  # Pasar la información diaria paginada
         current_page=pagina,
         total_pages=ceil(Info_diaria.query.filter_by(id_usuario=user_id).count() / per_page),  # Calcular el total de páginas

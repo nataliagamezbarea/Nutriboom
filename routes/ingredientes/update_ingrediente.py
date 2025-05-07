@@ -26,5 +26,4 @@ def update_ingrediente(id_ingrediente):
         db.session.commit()  # Guardamos los cambios
         return redirect(url_for('ingredientes'))  # Redirigimos a la lista de ingredientes
 
-    # Asegúrate de que `ingrediente_a_editar` se pase a la plantilla de edición
     return render_template('ingredientes/edit_ingrediente.html', ingrediente=ingrediente_a_editar)
