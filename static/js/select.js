@@ -1,177 +1,102 @@
-var estilo = document.createElement("style");
-estilo.setAttribute("id", "multiselect_dropdown_styles");
+// Función principal para convertir los selects múltiples en dropdowns personalizados
+function DropdownMultiselect() {
+  // Selecciona todos los elementos <select> con el atributo 'multiple'
+  document.querySelectorAll("select[multiple]").forEach((select) => {
+    
+    // Ocultar el select original, ya que vamos a reemplazarlo por un dropdown personalizado
+    select.style.display = "none";
 
-document.head.appendChild(estilo);
+    // Crear el contenedor del dropdown
+    const contenedor = document.createElement("div");
+    contenedor.classList.add("multiselect-dropdown");
 
-function DropdownMultiselect(opciones) {
-  var configuracion = {
-    altura: "15rem",
-    marcador: "seleccionar",
-    txtSeleccionado: " ingredientes seleccionados",
-    txtTodo: "Todo",
-    txtEliminar: "Eliminar",
-    ...opciones,
-  };
+    // Crear la lista de opciones que se mostrarán en el dropdown
+    const lista = document.createElement("div");
+    lista.classList.add("multiselect-dropdown-list");
 
-  function nuevoElemento(etiqueta, atributos) {
-    var e = document.createElement(etiqueta);
-    if (atributos !== undefined)
-      Object.keys(atributos).forEach((k) => {
-        if (k === "class") {
-          Array.isArray(atributos[k])
-            ? atributos[k].forEach((o) => (o !== "" ? e.classList.add(o) : 0))
-            : atributos[k] !== ""
-            ? e.classList.add(atributos[k])
-            : 0;
-        } else if (k === "style") {
-          Object.keys(atributos[k]).forEach((ks) => {
-            e.style[ks] = atributos[k][ks];
+    // Insertar el contenedor del dropdown después del select original
+    select.after(contenedor);
+    contenedor.appendChild(lista);
+
+    // Función para actualizar las opciones seleccionadas que se muestran arriba del dropdown
+    function refrescar() {
+      // Eliminar las opciones previas seleccionadas
+      contenedor.querySelectorAll(".optext, .placeholder").forEach(el => el.remove());
+      
+      // Obtener las opciones seleccionadas
+      const seleccionados = Array.from(select.selectedOptions);
+
+      // Si no hay opciones seleccionadas, mostrar un texto de placeholder
+      if (seleccionados.length === 0) {
+        contenedor.prepend(createElement("span", { class: "placeholder", text: "seleccionar" }));
+      } else {
+        // Si hay opciones seleccionadas, mostrar cada una de ellas como un 'tag'
+        seleccionados.forEach((opcion) => {
+          const tag = createElement("span", { class: "optext", text: opcion.text });
+          const eliminar = createElement("span", {
+            class: "optdel",
+            text: "🗙", // El icono para eliminar la opción
+            onclick: () => {
+              opcion.selected = false; // Desmarcar la opción
+              refrescar(); // Actualizar la vista
+            }
           });
-        } else if (k === "text") {
-          atributos[k] === "" ? (e.innerHTML = "&nbsp;") : (e.innerText = atributos[k]);
-        } else e[k] = atributos[k];
-      });
-    return e;
-  }
-
-  document.querySelectorAll("select[multiple]").forEach((el) => {
-    var div = nuevoElemento("div", {
-      class: "multiselect-dropdown",
-      style: {
-        width: configuracion.style?.width ?? el.clientWidth + "px",
-        padding: configuracion.style?.padding ?? "",
-      },
-    });
-    el.style.display = "none";
-    el.parentNode.insertBefore(div, el.nextSibling);
-    var listaWrap = nuevoElemento("div", { class: "multiselect-dropdown-list-wrapper" });
-    var lista = nuevoElemento("div", {
-      class: "multiselect-dropdown-list",
-      style: { height: configuracion.altura },
-    });
-
-    listaWrap.appendChild(lista);
-    div.appendChild(listaWrap);
-
-    el.cargarOpciones = () => {
-      lista.innerHTML = "";
-
-      if (el.attributes["multiselect-select-all"]?.value == "true") {
-        var op = nuevoElemento("div", { class: "multiselect-dropdown-all-selector" });
-        var ic = nuevoElemento("input", { type: "checkbox" });
-        op.appendChild(ic);
-        op.appendChild(nuevoElemento("label", { text: configuracion.txtTodo }));
-
-        op.addEventListener("click", () => {
-          op.classList.toggle("checked");
-          op.querySelector("input").checked =
-            !op.querySelector("input").checked;
-
-          var ch = op.querySelector("input").checked;
-          lista
-            .querySelectorAll(
-              ":scope > div:not(.multiselect-dropdown-all-selector)"
-            )
-            .forEach((i) => {
-              if (i.style.display !== "none") {
-                i.querySelector("input").checked = ch;
-                i.optEl.selected = ch;
-              }
-            });
-
-          el.dispatchEvent(new Event("change"));
+          tag.appendChild(eliminar); // Agregar el botón de eliminar a cada tag
+          contenedor.insertBefore(tag, lista); // Insertar el tag arriba de la lista
         });
-        ic.addEventListener("click", () => {
-          ic.checked = !ic.checked;
-        });
-
-        lista.appendChild(op);
       }
+    }
 
-      Array.from(el.options).map((o) => {
-        var op = nuevoElemento("div", { class: o.selected ? "checked" : "", optEl: o });
-        var ic = nuevoElemento("input", { type: "checkbox", checked: o.selected });
-        op.appendChild(ic);
-        op.appendChild(nuevoElemento("label", { text: o.text }));
+    // Función para cargar las opciones dentro del dropdown
+    function cargarOpciones() {
+      lista.innerHTML = ""; // Limpiar la lista antes de cargar las opciones
+      Array.from(select.options).forEach((opcion) => {
+        const item = document.createElement("div");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = opcion.selected; // Marcar si la opción está seleccionada
 
-        op.addEventListener("click", () => {
-          op.classList.toggle("checked");
-          op.querySelector("input").checked =
-            !op.querySelector("input").checked;
-          op.optEl.selected = !!!op.optEl.selected;
-          el.dispatchEvent(new Event("change"));
+        item.appendChild(checkbox); // Agregar el checkbox
+        item.append(" " + opcion.text); // Agregar el texto de la opción
+
+        // Manejar el clic en cada opción para marcar o desmarcar el checkbox
+        item.addEventListener("click", () => {
+          opcion.selected = checkbox.checked; // Actualizar el estado de selección de la opción
+          refrescar(); // Actualizar la vista
+          select.dispatchEvent(new Event("change")); // Disparar el evento 'change' para actualizar el select original
         });
-        ic.addEventListener("click", (ev) => {
-          ic.checked = !ic.checked;
-        });
-        o.listitemEl = op;
-        lista.appendChild(op);
+
+        lista.appendChild(item); // Agregar el item de opción al dropdown
       });
-      div.listaEl = listaWrap;
+    }
 
-      div.refrescar = () => {
-        div
-          .querySelectorAll("span.optext, span.placeholder")
-          .forEach((t) => div.removeChild(t));
-        var seleccionados = Array.from(el.selectedOptions);
-        if (
-          seleccionados.length > (el.attributes["multiselect-max-items"]?.value ?? 3)
-        ) {
-          div.appendChild(
-            nuevoElemento("span", {
-              class: ["optext", "maxselected"],
-              text: seleccionados.length + " " + configuracion.txtSeleccionado,
-            })
-          );
-        } else {
-          seleccionados.map((x) => {
-            var c = nuevoElemento("span", {
-              class: "optext",
-              text: x.text,
-              srcOption: x,
-            });
-            if (el.attributes["multiselect-hide-x"]?.value !== "true")
-              c.appendChild(
-                nuevoElemento("span", {
-                  class: "optdel",
-                  text: "🗙",
-                  title: configuracion.txtEliminar,
-                  onclick: (ev) => {
-                    c.srcOption.listitemEl.dispatchEvent(new Event("click"));
-                    div.refrescar();
-                    ev.stopPropagation();
-                  },
-                })
-              );
-
-            div.appendChild(c);
-          });
-        }
-        if (0 == el.selectedOptions.length)
-          div.appendChild(
-            nuevoElemento("span", {
-              class: "placeholder",
-              text: el.attributes["placeholder"]?.value ?? configuracion.marcador,
-            })
-          );
-      };
-      div.refrescar();
-    };
-    el.cargarOpciones();
-
-    div.addEventListener("click", () => {
-      div.listaEl.style.display = "block";
+    // Mostrar u ocultar la lista de opciones al hacer clic en el contenedor
+    contenedor.addEventListener("click", () => {
+      lista.style.display = lista.style.display === "block" ? "none" : "block"; // Alternar la visibilidad de la lista
     });
 
-    document.addEventListener("click", function (event) {
-      if (!div.contains(event.target)) {
-        listaWrap.style.display = "none";
-        div.refrescar();
+    // Si se hace clic fuera del contenedor, ocultar la lista
+    document.addEventListener("click", (e) => {
+      if (!contenedor.contains(e.target)) {
+        lista.style.display = "none"; // Ocultar la lista si se hace clic fuera
       }
     });
+
+    cargarOpciones(); // Llamar a la función para cargar las opciones
+    refrescar(); // Actualizar la vista inicial
   });
 }
 
-window.addEventListener("load", () => {
-  DropdownMultiselect(window.MultiselectDropdownOptions);
-});
+// Ejecutar la función 'DropdownMultiselect' cuando la página se haya cargado completamente
+window.addEventListener("load", DropdownMultiselect);
+
+// Función auxiliar para crear elementos HTML con atributos dinámicos
+function createElement(tag, attrs = {}) {
+  const el = document.createElement(tag); // Crear el elemento HTML
+  for (const [key, value] of Object.entries(attrs)) {
+    if (key === "class") el.classList.add(value); // Agregar clase al elemento
+    else if (key === "text") el.innerHTML = value; // Agregar texto al elemento
+    else el[key] = value; // Asignar otros atributos al elemento
+  }
+  return el; // Devolver el elemento creado
+}
