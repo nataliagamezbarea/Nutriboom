@@ -1,3 +1,5 @@
+from datetime import datetime
+import locale
 import os
 from flask import Flask
 from flask_cors import CORS
@@ -8,7 +10,6 @@ from routes import *
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-
 CORS(app)
 
 init_db(app)
@@ -69,5 +70,8 @@ app.add_url_rule('/info_diaria/update/<int:id_info_diaria>', 'update_info_diaria
 app.add_url_rule('/info_diaria/delete/<int:id_info_diaria>', 'delete_info_diaria', delete_info_diaria, methods=["POST"])  
 app.add_url_rule('/delete_info_diarias' , 'delete_info_diarias' , delete_info_diarias ,  methods = ['POST'])
 
+#CALENDARIO DIETA
+app.add_url_rule('/calendario_dieta/<dia>', 'calendario_dieta', calendario_dieta, methods=["GET", "POST"])
+app.add_url_rule('/calendario_dieta/seleccionar_plato/<int:id_plato>/<dia>', 'seleccionar_plato', seleccionar_plato, methods=["GET", "POST"] )
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
