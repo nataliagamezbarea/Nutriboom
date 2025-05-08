@@ -25,17 +25,17 @@ rel="stylesheet"
     </div>
   </div>
 
-  <div id="botones-estadistica">
+  <div class="botones-arriba">
     <a href="/estadistica/peso"
-       id="{{ 'boton-activo' if tipo == 'peso' else 'boton-inactivo' }}">
+       class="{{ 'boton-activo' if tipo == 'peso' else 'boton-inactivo' }}">
        Peso
     </a>
     <a href="/estadistica/masa_muscular"
-       id="{{ 'boton-activo' if tipo == 'masa_muscular' else 'boton-inactivo' }}">
+       class="{{ 'boton-activo' if tipo == 'masa_muscular' else 'boton-inactivo' }}">
        Masa Muscular
     </a>
     <a href="/estadistica/grasa_corporal"
-       id="{{ 'boton-activo' if tipo == 'grasa_corporal' else 'boton-inactivo' }}">
+       class="{{ 'boton-activo' if tipo == 'grasa_corporal' else 'boton-inactivo' }}">
        Grasa Corporal
     </a>
   </div>
