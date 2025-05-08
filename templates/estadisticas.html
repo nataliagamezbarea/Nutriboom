@@ -25,22 +25,22 @@ rel="stylesheet"
     </div>
   </div>
 
-  <div class="botones-container">
+  <div id="botones-estadistica">
     <a href="/estadistica/peso"
-       class="boton-estadistica {{ 'boton-activo' if tipo == 'peso' else 'boton-inactivo' }}">
+       id="{{ 'boton-activo' if tipo == 'peso' else 'boton-inactivo' }}">
        Peso
     </a>
     <a href="/estadistica/masa_muscular"
-       class="boton-estadistica {{ 'boton-activo' if tipo == 'masa_muscular' else 'boton-inactivo' }}">
+       id="{{ 'boton-activo' if tipo == 'masa_muscular' else 'boton-inactivo' }}">
        Masa Muscular
     </a>
     <a href="/estadistica/grasa_corporal"
-       class="boton-estadistica {{ 'boton-activo' if tipo == 'grasa_corporal' else 'boton-inactivo' }}">
+       id="{{ 'boton-activo' if tipo == 'grasa_corporal' else 'boton-inactivo' }}">
        Grasa Corporal
     </a>
   </div>
 
-  <div class="boxes">
+  <div id="m-12" class="flex justify-center">
     <div class="box">
       <!-- Aquí se dibujará el gráfico -->
       <div id="chart" style="width: 100%; height: 100%;"></div>

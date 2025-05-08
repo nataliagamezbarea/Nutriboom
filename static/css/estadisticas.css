@@ -1,44 +1,43 @@
 
-  .boton-estadistica {
-    display: inline-block;
-    padding: 12px 20px;
-    margin: 8px;
-    border-radius: 9999px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: fit-content;
-    text-decoration: none;
-    border: 2px solid #10B981;
-  }
+#m-12 {
+  margin: 20px;
+}
 
-  .boton-activo {
-    background-color: #10B981;
-    color: white;
-  }
+.box {
+  width: 600px;
+  height: 400px;
+}
 
-  .boton-inactivo {
-    background-color: white;
-    color: #10B981;
-  }
 
-  .boton-estadistica:hover {
-    transform: scale(1.05);
-  }
+#botones-estadistica {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-  .botones-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+#botones-estadistica a {
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 8px;
+  border-radius: 9999px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: fit-content;
+  text-decoration: none;
+  border: 2px solid #10b981;
+}
 
-  .boxes {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
+#boton-activo {
+  background-color: #10b981;
+  color: white;
+}
 
-  .box {
-    width: 600px;
-    height: 400px;
-  }
+#boton-inactivo {
+  background-color: white;
+  color: #10b981;
+}
+
+#boton-estadistica:hover {
+  transform: scale(1.05);
+}
