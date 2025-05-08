@@ -7,12 +7,11 @@
 <div class="contenedor-form">
   <h1>Datos Personales</h1>
   
-  <!-- Si hay un mensaje de éxito o error, se muestra aquí -->
   {% if mensaje %}
       <p>{{ mensaje }}</p>
   {% endif %}
   
-  <form method="POST" action="{{ url_for('datos_personales') }}">
+  <form method="POST" action="{{ url_for('datos_personales') }}" onsubmit="actualizarCalorias()">
       <div>
           <label for="altura">Altura (m):</label>
           <input type="number" step="0.01" name="altura" id="altura" value="{{ datos.altura if datos else '' }}" required>
@@ -47,39 +46,35 @@
       </div>
 
       <div>
-          <input id="calorias_permitidas" name="calorias_permitidas" hidden type="number" value="">
-          <input id="tipo_dieta" name="tipo_dieta" hidden type="text" value="">
+          <input id="calorias_permitidas" name="calorias_permitidas" type="hidden" value="{{ datos.calorias_permitidas if datos else '' }}">
+          <input id="tipo_dieta" name="tipo_dieta" type="hidden" value="{{ datos.tipo_dieta if datos else '' }}">
           <label for="tipo_dieta">Tipo de Dieta:</label>
           <select id="tipoDietaSelector" onchange="actualizarCalorias()">
-              <option value="Mantenerse">Mantenerse</option>
-              <option value="Bajar">Bajar de peso</option>
-              <option value="Subir">Subir de peso</option>
+              <option value="Mantenerse" {% if datos and datos.tipo_dieta == 'Mantenerse' %}selected{% endif %}>Mantenerse</option>
+              <option value="Bajar" {% if datos and datos.tipo_dieta == 'Bajar' %}selected{% endif %}>Bajar de peso</option>
+              <option value="Subir" {% if datos and datos.tipo_dieta == 'Subir' %}selected{% endif %}>Subir de peso</option>
           </select>
 
-          <p>Calorías permitidas: <span id="calorias">{{ datos.calorias_base if datos else '1000' }}</span></p>
+          <p>Calorías permitidas: <span id="calorias">{{ datos.calorias_permitidas if datos else '1000' }}</span></p>
           
           <script>
               function actualizarCalorias() {
                   const tipoDieta = document.getElementById("tipoDietaSelector").value;
-                  console.log(tipoDieta)
-                  let caloriasBase = document.getElementById("calorias_base").value;
-                  if (caloriasBase === '') {
+                  let caloriasBase = parseFloat(document.getElementById("calorias_base").value);
+                  if (isNaN(caloriasBase)) {
                       caloriasBase = 1000;
                   }
-                  let calorias = 0;
-                    
+                  let calorias = caloriasBase;
+
                   if (tipoDieta === "Bajar") {
                       calorias = caloriasBase - 400;
                   } else if (tipoDieta === "Subir") {
-                      calorias = parseInt(caloriasBase) + 400;
-                  } else {
-                      calorias = caloriasBase;
+                      calorias = caloriasBase + 400;
                   }
-          
-                  document.getElementById("calorias").textContent = calorias;
+
+                  document.getElementById("calorias").textContent = Math.round(calorias);
                   document.getElementById("calorias_permitidas").value = calorias;
                   document.getElementById("tipo_dieta").value = tipoDieta;
-                  console.log(tipoDieta);
               }
           </script>
       </div>
@@ -91,5 +86,4 @@
 
   <a href="{{ url_for('home') }}">Volver a la página principal</a>
 </div>
-
 {% endblock %}
