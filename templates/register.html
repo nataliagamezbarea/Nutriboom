@@ -5,9 +5,17 @@
 
 <div class="content">
   <div class="container-page" id="Container">
-    
     <div class="login-container" id="LoginContainer">
+
       <h1 class="title">Registro</h1>
+
+      {# Mensaje de error (si existe) #}
+      {% if error %}
+        <div class="error-message alerta-error">
+          {{ error }}
+        </div>
+      {% endif %}
+
       <form method="POST" action="/register">
         <div class="input-line-container">
           <span class="name-input">Nombre</span>
@@ -41,10 +49,9 @@
 
         <button type="submit" class="button-login">Registrarse</button>
       </form>
+
       <a href="{{ url_for('login') }}" class="button-second">Login</a>
     </div>
-
   </div>
 </div>
-
 {% endblock %}

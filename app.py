@@ -2,10 +2,14 @@ from datetime import datetime
 import locale
 import os
 from flask import Flask
+from dotenv import load_dotenv
 from flask_cors import CORS
 from backend.Modelos.database import db, init_db
 
 from routes import *
+
+
+load_dotenv()  
 
 
 app = Flask(__name__)
@@ -13,6 +17,9 @@ app.secret_key = os.urandom(24)
 CORS(app)
 
 init_db(app)
+
+
+
 
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
 app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
