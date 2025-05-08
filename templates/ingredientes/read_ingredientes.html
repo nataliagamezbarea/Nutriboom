@@ -2,6 +2,20 @@
 <div class="center">
     <div class="container mt-4">
         <!-- Header -->
+        <div class="botones-arriba">
+            <a href="{{ url_for('platos') }}"
+            class="{% if request.endpoint == 'platos' %}boton-activo{% else %}boton-inactivo{% endif %}">
+            Platos
+         </a>
+         
+         <a href="{{ url_for('ingredientes') }}"
+            class="{% if request.endpoint == 'ingredientes' %}boton-activo{% else %}boton-inactivo{% endif %}">
+            Ingredientes
+         </a>
+         
+
+        </div>
+        
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">

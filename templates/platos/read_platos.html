@@ -1,6 +1,19 @@
 {% block content %}
 <div class="center">
     <div class="container mt-4">
+        <div class="botones-arriba">
+            <a href="{{ url_for('platos') }}"
+            class="{% if request.endpoint == 'platos' %}boton-activo{% else %}boton-inactivo{% endif %}">
+            Platos
+         </a>
+         
+         <a href="{{ url_for('ingredientes') }}"
+            class="{% if request.endpoint == 'ingredientes' %}boton-activo{% else %}boton-inactivo{% endif %}">
+            Ingredientes
+         </a>
+         
+
+        </div>
         <!-- Header -->
         <div class="table-wrapper">
             <div class="table-title">
