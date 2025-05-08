@@ -16,7 +16,7 @@ def datos_personales():
         tipo_dieta = request.form.get("tipo_dieta", "Mantenerse")
         calorias_base = float(request.form.get("calorias_base", 0))
         calorias_permitidas = float(request.form.get("calorias_permitidas", 0))
-
+        numero_Comidas = int(request.form.get("numero_Comidas", 1))
         datos = Datos_personales.query.filter_by(id_usuario=user_id).first()
 
         if not datos:
@@ -28,7 +28,8 @@ def datos_personales():
                 nivel_actividad=nivel_actividad, 
                 tipo_dieta=tipo_dieta, 
                 calorias_base=calorias_base, 
-                calorias_permitidas=calorias_permitidas
+                calorias_permitidas=calorias_permitidas , 
+                numero_Comidas = numero_Comidas
             )
             db.session.add(nuevo_dato)
         else:
@@ -39,6 +40,7 @@ def datos_personales():
             datos.tipo_dieta = tipo_dieta
             datos.calorias_base = calorias_base
             datos.calorias_permitidas = calorias_permitidas
+            datos.numero_Comidas = numero_Comidas
 
         db.session.commit()
 

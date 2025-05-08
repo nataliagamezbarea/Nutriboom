@@ -42,7 +42,7 @@
       
       <div>
           <label for="calorias_base">Calorías base:</label>
-          <input type="number" step="1" name="calorias_base" id="calorias_base" value="{{ datos.calorias_base if datos else '' }}" required>
+          {{datos.calorias_base}}
       </div>
 
       <div>
@@ -54,7 +54,8 @@
               <option value="Bajar" {% if datos and datos.tipo_dieta == 'Bajar' %}selected{% endif %}>Bajar de peso</option>
               <option value="Subir" {% if datos and datos.tipo_dieta == 'Subir' %}selected{% endif %}>Subir de peso</option>
           </select>
-
+          <label for="numero_Comidas">Número Comidas:</label>
+          <input type="number" min="1" max="5" required step="1" id="numero_Comidas" name="numero_Comidas">
           <p>Calorías permitidas: <span id="calorias">{{ datos.calorias_permitidas if datos else '1000' }}</span></p>
           
           <script>
