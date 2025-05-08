@@ -132,16 +132,23 @@ def generarTajetasPlatos(numComidas, dia, user_id):
                 """ 
     return html_code, modales   
 
-
 def calendario_dieta(dia="Lunes"): 
+    
     if "user" not in session:
         return redirect(url_for("login"))
-    user_id = int(session["user"])
+    
+    user_id = session["user"]
+    datos = Datos_personales.query.filter_by(id_usuario=user_id).first()
+
+    if not datos:
+        return redirect(url_for("datos_personales"))
+    
+
     datos_Usuario = Datos_personales.query.filter_by(id_usuario=user_id).first()
 
     html, modales = generarTajetasPlatos(int(datos_Usuario.numero_Comidas), dia, user_id)
-    return render_template("CalendarioDieta.html", day=dia, html=html,modales=modales,)
-
+    
+    return render_template("CalendarioDieta.html", day=dia, html=html, modales=modales)
 
 
 def seleccionar_plato(id_plato, dia):

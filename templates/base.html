@@ -42,10 +42,13 @@
             <span>Cuenta</span>
           </a>
 
-          <a href="{{ url_for('calendario_dieta', dia ='Lunes')}}" class="{% if request.path == '/calendario_dieta' %}active{% endif %}">
-            <i class="fas fa-solid fa-utensils"></i>
-            <span>Comidas</span>
-          </a>
+          <!-- He puesto que empiece por calendario dieta porque si no no se aplicaba correctamente el active -->
+          <a href="{{ url_for('calendario_dieta', dia='Lunes') }}" 
+          class="{% if request.path.startswith('/calendario_dieta') %}active{% endif %}">
+           <i class="fas fa-solid fa-utensils"></i>
+           <span>Comidas</span>
+       </a>
+       
           <a href="{{ url_for('datos_personales') }}"  class="{% if request.path == '/datos_personales' %}active{% endif %}">
             <i class="fas fa-bullseye"></i>
             <span>Objetivos</span>

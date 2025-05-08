@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, url_for, session
+from backend.Modelos.Datos_personales import Datos_personales
 from backend.Modelos.database import db
 from backend.Modelos.Info_diaria import Info_diaria
 from math import ceil
@@ -6,8 +7,15 @@ from math import ceil
 def info_diaria():
     if 'user' not in session:
         return redirect(url_for('login'))
+    
 
     user_id = int(session["user"])  # Obtener el ID del usuario desde la sesión
+
+    
+    datos = Datos_personales.query.filter_by(id_usuario=user_id).first()
+
+    if not datos:
+        return redirect(url_for("datos_personales"))
 
     # Obtener la página actual, con un valor por defecto de 1
     pagina = request.args.get('page', 1, type=int)
