@@ -4,11 +4,128 @@
 
 {% block content %}
 <script src="{{ url_for('static', filename='js/estadisticas/estadistica_general.js') }}"></script>
-{% block head %}
-  <link href="{{ url_for('static', filename='css/a.css') }}?v=1" rel="stylesheet"/>
-{% endblock %}
+
+<style>
 
 
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f4f7f6;
+  padding: 2rem 0;
+  font-family: Arial, sans-serif;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1000px;
+  background: #13f487;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.bienvenida p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.bienvenida h1 {
+  margin: 0.2rem 0 0;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.perfil-usuario img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+}
+
+/* Contenedor de cajas */
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 90%;
+  max-width: 1000px;
+}
+
+/* Estilo común para cada caja */
+.box {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Títulos dentro de las cajas */
+.box h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Párrafos y mensajes */
+.box p {
+  margin: 0 0 0.5rem;
+  color: #555;
+}
+
+
+.mensaje-error {
+  font-style: italic;
+  color: #e53935; 
+}
+
+#chart {
+  width: 100%;
+  height: 300px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+/* Estilos específicos por tipo de caja */
+.calorias-box {
+  border-left: 6px solid #FFC107;
+}
+
+.actividad-box {
+  border-left: 6px solid #2196F3;
+}
+
+.calorias-permitidas-box {
+  border-left: 6px solid #4CAF50;
+}
+
+/* Responsive: adaptar cajas en móvil */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .boxes {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+</style>
 <div class="content">
   <!-- Header -->
   <div class="header">
