@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, session
 from backend.Modelos.Datos_personales import Datos_personales
 from backend.Modelos.database import db
-
+#Funcion que permite calvular las calorias minimas para que el usuario se mantenga
 def calcular_calorias_base(edad, genero, altura, nivel_actividad):
     altura_cm = altura * 100 
 
@@ -21,7 +21,7 @@ def calcular_calorias_base(edad, genero, altura, nivel_actividad):
         bmr *= 1.9  
     print(bmr)
     return bmr
-
+# Funcion que abre la ventana de datos personales y actualiza los valores al darle a guardar
 def datos_personales():
     if "user" not in session:
         return redirect(url_for("login"))

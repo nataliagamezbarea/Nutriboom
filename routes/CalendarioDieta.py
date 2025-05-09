@@ -8,10 +8,11 @@ from backend.Modelos.IngredientePlato import IngredientePlato
 from backend.Modelos.Ingredientes import Ingredientes
 from backend.Modelos.IngredientePlatoUsuario import IngredientePlatoUsuario
 from datetime import datetime
-
+# genera una lista de platos, segun su tipo
 def generarListPlatosPorTipo(tipo):
     platos = Platos.query.filter(Platos.tipo == tipo).all()
     return platos
+# genera los ingredientes del plato en cuestion
 def obtenerIngredientesPlato(id_platos):
     ingredientes = []
     ingredientesPlato = IngredientePlato.query.filter(IngredientePlato.id_plato ==id_platos).all()
@@ -19,10 +20,11 @@ def obtenerIngredientesPlato(id_platos):
         ingrediente = Ingredientes.query.filter(Ingredientes.id_ingrediente == ing.id_ingrediente).first()
         ingredientes.append(ingrediente)
     return ingredientes
-
+# funcion que genera modales segun el numero de comidas
 def generarModales(numComidas, dia):
     html_modals = ""
     comidas = ["Comida","Cena","Desayuno","Merienda","Almuerzo"]
+    # segun el numero de comidas
     for num in range(numComidas):
        tipo = comidas[num]
        platos = generarListPlatosPorTipo(tipo)
@@ -66,11 +68,12 @@ def generarModales(numComidas, dia):
     </div>
     """
     return html_modals
-
+# genera el arcodeon y sus "tarjetas" segun el numero de comidas
 def generarTajetasPlatos(numComidas, dia, user_id):
     comidas = ["Comida","Cena","Desayuno","Merienda","Almuerzo"]
     modales = generarModales(numComidas, dia)
     html_code = """<div class="accordion" id="accordionPanelsStayOpenExampletipo">"""
+    #segun el numero de comidas
     for num in range(numComidas):
       tipo = comidas[num]
       plato = (
@@ -79,7 +82,7 @@ def generarTajetasPlatos(numComidas, dia, user_id):
       .group_by(Platos.id_plato).first()
       )
       if plato:
-          IptLista = IngredientePlatoUsuario.query.filter(IngredientePlatoUsuario.id_usuario == user_id, IngredientePlatoUsuario.dia == dia,IngredientePlatoUsuario.id_plato == plato.id_plato ).all()
+          IpuLista = IngredientePlatoUsuario.query.filter(IngredientePlatoUsuario.id_usuario == user_id, IngredientePlatoUsuario.dia == dia,IngredientePlatoUsuario.id_plato == plato.id_plato ).all()
           html_code = html_code +  f"""
           
                   <div class="accordion-item{tipo}">
@@ -96,10 +99,11 @@ def generarTajetasPlatos(numComidas, dia, user_id):
                         <h5 class="mb-2">{plato.nombre}</h5>
                         <div class="row row-cols-2 g-2 mb-3">
                         """
-          for ipt in IptLista:
-                        ingrediente = Ingredientes.query.filter(Ingredientes.id_ingrediente == ipt.id_ingrediente).first()
+          # por cada ingredientePlatoUsario
+          for ipu in IpuLista:
+                        ingrediente = Ingredientes.query.filter(Ingredientes.id_ingrediente == ipu.id_ingrediente).first()
                         html_code = html_code +  f""" 
-                        <div class="col"><span class="badge bg-secondary w-100">{ingrediente.nombre}: {ipt.cantidad}g</span></div>
+                        <div class="col"><span class="badge bg-secondary w-100">{ingrediente.nombre}: {ipu.cantidad}g</span></div>
                         """
           html_code = html_code +  f""" 
                         </div>
@@ -131,7 +135,7 @@ def generarTajetasPlatos(numComidas, dia, user_id):
                 </div>
                 """ 
     return html_code, modales   
-
+# funcion central de calendario dieta
 def calendario_dieta(dia="Lunes"): 
     
     if "user" not in session:
@@ -150,7 +154,7 @@ def calendario_dieta(dia="Lunes"):
     
     return render_template("CalendarioDieta.html", day=dia, html=html, modales=modales)
 
-
+#Funcion que coje el plato y lo asigna al dia y al usuario
 def seleccionar_plato(id_plato, dia):
     if "user" not in session:
       return redirect(url_for("login"))
@@ -173,69 +177,8 @@ def seleccionar_plato(id_plato, dia):
     return redirect(url_for("calendario_dieta", dia=dia))
 
 
-# def seleccionar_plato(id_plato, dia):
-#     if request.method == 'POST':
-#       #user_id = int(session["user"])
-#       user_id = 4 #cambiar al subir los cambios
-#       plato = Platos.query.filter(Platos.id_plato == id_plato).first()
-#       datos_Usuario = Datos_personales.query.filter_by(id_usuario=user_id).first()
-#       Ingredientes = obtenerIngredientesPlato(id_plato)
-#       porcentajesDieta = obtenerPorcentajes(datos_Usuario.tipo_dieta)
-#       calorias_permitidas = datos_Usuario.calorias_permitidas
-#       num_ingredientes = len(Ingredientes)
-#       match datos_Usuario.numero_Comidas:
-#           case 1:
-#               # kcal por grupo
-#               kcal_prot =  float(calorias_permitidas) * porcentajesDieta['proteina']
-#               kcal_carb = float(calorias_permitidas)  * porcentajesDieta['carbs']
-#               kcal_gras = float(calorias_permitidas)  * porcentajesDieta['grasas']
-              
-
-#               kcal_prot_por_ingrediente = kcal_prot / num_ingredientes
-#               kcal_carb_por_ingrediente = kcal_carb / num_ingredientes
-#               kcal_gras_por_ingrediente = kcal_gras / num_ingredientes
-
-#               for ing in Ingredientes:
-#                 #Sumamos la grasas
-#                 grasas_totales = ing.grasas_Saturadas + ing.grasas_NO_Saturadas
-#                 #como tenemos las propiedades por cada 100 gramos calculamos cuantas Kcal equivaldrian
-#                 kcal_prot_1g = (ing.proteina / 100) * 4
-#                 kcal_carb_1g = (ing.carbohidratos / 100) * 4
-#                 kcal_gras_1g = (grasas_totales / 100) * 9
-#                # kcal_1g = kcal_prot_1g + kcal_carb_1g + kcal_gras_1g
-#                 gramos_prot = kcal_prot_por_ingrediente / float(kcal_prot_1g) if kcal_prot_1g > 0 else 0
-#                 gramos_carb = kcal_carb_por_ingrediente / float(kcal_carb_1g) if kcal_carb_1g > 0 else 0
-#                 gramos_gras = kcal_gras_por_ingrediente / float(kcal_gras_1g) if kcal_gras_1g > 0 else 0 
-#                 print("proteina" + str(gramos_prot))
-#                 print("carbs" + str(gramos_carb))
-#                 print("gras" +str(gramos_gras))
-#                 gramos_necesarios = gramos_carb + gramos_prot + gramos_gras
-#                 print(gramos_necesarios)
-#                 # nuevo_ing_user_plato = IngredientePlatoUsuario(
-#                 #     id_plato=id_plato,
-#                 #     id_ingrediente=ing.id_ingrediente,
-#                 #     id_usuario= 4, #int(session["user"])
-#                 #     cantidad = gramos_necesarios,
-#                 #     dia= dia
-#                 # )
-
-#                 # db.session.add(nuevo_ing_user_plato)
-#                 # db.session.commit()
-
-#                 pass
-#               pass
-#           case 2:
-#               pass
-#           case 3:
-#               pass
-#           case 4:
-#               pass
-#           case 5:
-#               pass
-
-#       return redirect(url_for("calendario_dieta", dia=dia))
-
-
+# funcion que nos da los porcentajes segun el tipo de dieta 
+#Ahora mismo no esta en funcionamiento
 def obtenerPorcentajes(tipo_dieta):
     porcentaje = {}
     match tipo_dieta:
