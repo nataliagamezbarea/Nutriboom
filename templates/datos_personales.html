@@ -43,13 +43,11 @@
       <div>
         <label for="calorias_base">Calorías base:</label>
         {% if datos is defined and datos.calorias_base is defined %}
-          {{ datos.calorias_base }}
+          <span id="calorias_base_display">{{ datos.calorias_base }}</span>
         {% else %}
-          0
+          <span id="calorias_base_display">0</span>
         {% endif %}
-        
-        
-              </div>
+      </div>
 
       <div>
           <input id="calorias_permitidas" name="calorias_permitidas" type="hidden" value="{{ datos.calorias_permitidas if datos else '' }}">
@@ -68,7 +66,7 @@
           <script>
               function actualizarCalorias() {
                   const tipoDieta = document.getElementById("tipoDietaSelector").value;
-                  let caloriasBase = parseFloat(document.getElementById("calorias_base").value);
+                  let caloriasBase = parseFloat(document.getElementById("calorias_base_display").textContent);
                   if (isNaN(caloriasBase)) {
                       caloriasBase = 1000;
                   }
