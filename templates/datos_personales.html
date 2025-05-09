@@ -60,7 +60,7 @@
         </select>
         
           <label for="numero_Comidas">Número Comidas:</label>
-          <input type="number" min="1" max="5" required step="1" id="numero_Comidas" name="numero_Comidas">
+          <input type="number" min="1" max="5" required step="1" id="numero_Comidas" name="numero_Comidas" value="{{ datos.numero_Comidas if datos else '' }}">
           <p>Calorías permitidas: <span id="calorias">{{ datos.calorias_permitidas if datos else '1000' }}</span></p>
           
           <script>

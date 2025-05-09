@@ -7,7 +7,7 @@
   <div class="container-page" id="Container">
     
     <div class="login-container" id="LoginContainer">
-      <h1 class="title">Login</h1>
+      <h1 class="title">Iniciar sesión</h1>
 
       <!-- Display error message -->
       {% if error %}
@@ -18,12 +18,12 @@
 
       <form method="POST" action="/login">
         <div class="input-lailine-container">
-          <span class="name-input">Username</span>
+          <span class="name-input">Usuario</span>
           <input type="email" name="email" class="input-line" required>
         </div>
         
         <div class="input-line-container">
-          <span class="name-input">Password</span>
+          <span class="name-input">Contraseña</span>
           <input type="password" name="contrasena" class="input-line" required>
         </div>
         <a id="olvidado" href="{{ url_for('olvidado_contraseña') }}">¿Has olvidado tu contraseña?</a>
@@ -32,7 +32,7 @@
 
       </form>
       
-      <a href="{{ url_for('register') }}" class="button-second">Register</a>
+      <a href="{{ url_for('register') }}" class="button-second">Registro</a>
       
     </div>
 

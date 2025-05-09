@@ -75,6 +75,7 @@ small {
   height: 15rem;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 18vw;
 }
 .multiselect-dropdown-list::-webkit-scrollbar {
   width: 6px;
