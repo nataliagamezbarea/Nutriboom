@@ -70,7 +70,7 @@ def generarModales(numComidas, dia):
 def generarTajetasPlatos(numComidas, dia, user_id):
     comidas = ["Comida","Cena","Desayuno","Merienda","Almuerzo"]
     modales = generarModales(numComidas, dia)
-    html_code = """"""
+    html_code = """<div class="accordion" id="accordionPanelsStayOpenExampletipo">"""
     for num in range(numComidas):
       tipo = comidas[num]
       plato = (
@@ -81,7 +81,7 @@ def generarTajetasPlatos(numComidas, dia, user_id):
       if plato:
           IptLista = IngredientePlatoUsuario.query.filter(IngredientePlatoUsuario.id_usuario == user_id, IngredientePlatoUsuario.dia == dia,IngredientePlatoUsuario.id_plato == plato.id_plato ).all()
           html_code = html_code +  f"""
-          <div class="accordion" id="accordionPanelsStayOpenExampletipo">
+          
                   <div class="accordion-item{tipo}">
                     <h2 class="accordion-header" id="panelsStayOpen-heading{tipo}">
                       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{tipo}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{tipo}">

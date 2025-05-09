@@ -19,7 +19,7 @@ def calcular_calorias_base(edad, genero, altura, nivel_actividad):
     elif nivel_actividad == 4:
         bmr *= 1.725  
         bmr *= 1.9  
-
+    print(bmr)
     return bmr
 
 def datos_personales():
