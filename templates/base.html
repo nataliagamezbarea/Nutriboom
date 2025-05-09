@@ -37,6 +37,10 @@
              <i class="fas fa-solid fa-carrot"></i>
              <span>Ingredientes</span>
            </a>
+           <a href="{{ url_for('cuenta') }}" class="{% if request.path == '/cuenta' %}active{% endif %}">
+            <i class="fas fa-user-circle"></i>
+            <span>Cuenta</span>
+          </a>
          {% else %}
            <a href="{{ url_for('login') }}" class="{% if request.path == '/login' or request.path == '/' %}active{% endif %}">
              <i class="fas fa-home"></i>
