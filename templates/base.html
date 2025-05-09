@@ -3,6 +3,7 @@
  <head>
    <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
    <link
      href="{{ url_for('static', filename='css/SeguimientoNutricional.css') }}"
      rel="stylesheet"
@@ -14,7 +15,9 @@
    <link rel="shortcut icon" href="{{ url_for('static', filename='img/nutriboom.png') }}" />
    <script src="https://cdn.jsdelivr.net/npm/echarts"></script>
 
-   <title>Seguimiento Nutricional</title>
+   {% block head %}{% endblock %}  
+
+   <title>{% block title %}Seguimiento Nutricional{% endblock %}</title>
  </head>
  <body>
    <nav>
@@ -23,53 +26,38 @@
        <span>Nutriboom</span>
      </div>
 
-
      <div class="nav-menu">
        <div class="arriba">
          {% if session.get("is_admin") %}
-           <!-- SOLO ADMIN -->
            <a href="{{ url_for('platos') }}" class="{% if request.path == '/platos' %}active{% endif %}">
              <i class="fas fa-solid fa-utensils"></i>
              <span>Platos</span>
            </a>
-
-
            <a href="{{ url_for('ingredientes') }}" class="{% if request.path == '/ingredientes' %}active{% endif %}">
              <i class="fas fa-solid fa-carrot"></i>
              <span>Ingredientes</span>
            </a>
          {% else %}
-           <!-- SOLO USUARIOS NORMALES -->
            <a href="{{ url_for('login') }}" class="{% if request.path == '/login' or request.path == '/' %}active{% endif %}">
              <i class="fas fa-home"></i>
              <span>Inicio</span>
            </a>
-
-
            <a href="{{ url_for('info_diaria') }}" class="{% if request.path == '/info_diaria' %}active{% endif %}">
              <i class="fas fa-calendar-day"></i>
              <span>Info diaria</span>
            </a>
-
-
            <a href="{{ url_for('cuenta') }}" class="{% if request.path == '/cuenta' %}active{% endif %}">
              <i class="fas fa-user-circle"></i>
              <span>Cuenta</span>
            </a>
-
-
            <a href="{{ url_for('calendario_dieta', dia='Lunes') }}" class="{% if request.path.startswith('/calendario_dieta') %}active{% endif %}">
              <i class="fas fa-utensils"></i>
              <span>Comidas</span>
            </a>
-
-
            <a href="{{ url_for('datos_personales') }}" class="{% if request.path == '/datos_personales' %}active{% endif %}">
              <i class="fas fa-bullseye"></i>
              <span>Objetivos</span>
            </a>
-
-
            <a href="/estadistica/peso" class="{% if request.path.startswith('/estadistica') %}active{% endif %}">
              <i class="fas fa-chart-line"></i>
              <span>Gráficos</span>
@@ -77,8 +65,6 @@
          {% endif %}
        </div>
 
-
-       <!-- Cerrar sesión (visible para todos) -->
        <div class="cerrar_sesion abajo">
          <a href="{{ url_for('logout') }}">
            <i class="fas fa-sign-out-alt"></i>
@@ -87,7 +73,6 @@
        </div>
      </div>
    </nav>
-
 
    {% block content %}{% endblock %}
  </body>
