@@ -46,7 +46,7 @@ from .info_diaria.info_diaria import info_diaria
 
 
 # USER
-from .user import update_usuario
+from .user.update_usuario import update_usuario
 from .user.cuenta import cuenta
 from .user.olvidado_contraseña import olvidado_contraseña
 from .user.restablecer_contraseña import restablecer_contraseña
